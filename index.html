@@ -31,13 +31,16 @@
 
     canvas {
       display: block;
+      display: flex;
+      justify-content: center;
+      align-content: center;
     }
   </style>
   <!-- <script src="GLTFLoader.js"></script> -->
 </head>
 
-<body>
-  <div class="brand" style="position: absolute; margin: 50px">
+<body style="">
+  <div class="brand" style="position: ; margin: 50px">
     <h6>Have<br>a<br>Nice<br>Trip</h6>
   </div>
 
@@ -51,7 +54,10 @@
     </ul>
   </nav>
   <div id="2dImage" style="display: none;">
-    <img src="img/transparentmov.gif" style="max-width: 600px">
+    <div style="display: flex; justify-content: center; align-items: center">
+      <img src="img/transparentmov.gif" style="max-width: 600px; align-content: center">
+    </div>
+
   </div>
 
   <script src="js/three.js"></script>
