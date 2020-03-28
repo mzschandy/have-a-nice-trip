@@ -39,22 +39,61 @@
       justify-content: center;
       align-content: center;
     }
+
+    .overlay {
+      height: 0%;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow-y: hidden;
+      transition: 0.5s;
+    }
+
+    .overlay-content {
+      position: relative;
+      top: 25%;
+      width: 100%;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .overlay a {
+      padding: 8px;
+      text-decoration: none;
+      font-size: 36px;
+      color: #fff;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .overlay a:hover,
+    .overlay a:focus {
+      color: #f1f1f1;
+    }
+
+    .overlay .closebtn {
+      position: absolute;
+      top: 20px;
+      right: 45px;
+      font-size: 60px;
+    }
   </style>
   <!-- <script src="GLTFLoader.js"></script> -->
 </head>
 
 <body style="">
+  <span style="font-size:16px;cursor:pointer; position: absolute; right: 0" onclick="openNav()">Credits &#9776;</span>
   <div class="brand" style="position: ; margin: 50px">
-    <h6>Have<br>a<br>Nice<br>Trip</h6>
+    <h6>Have<br>a<br>Nice<br>Trip.</h6>
   </div>
 
   <nav class="navbar fixed-bottom">
-    <a class="navbar-brand" href="#">Click on the character to make him fall</a>
+    <div class="navbar-brand" href="#"><b>Click on the character to make him fall</b> </div>
     <ul class="navbar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link" href="#">Credits</a>
-      </li>
     </ul>
   </nav>
   <div id="2dImage" style="display: none;">
@@ -63,9 +102,34 @@
     </div>
   </div>
 
+  <div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+      <a href="#">Zach Schandorf-Lartey</a>
+      <h6>Developer</h6>
+      <a href="#">Zachary Aydelotte</a>
+      <h6>3D Animator</h6>
+      <a href="#">Kalli Melilli</a>
+      <h6>2D Animator</h6>
+    </div>
+  </div>
+
+
+
+  <script>
+    function openNav() {
+      document.getElementById("myNav").style.height = "100%";
+    }
+
+    function closeNav() {
+      document.getElementById("myNav").style.height = "0%";
+    }
+  </script>
+
+
   <script src="js/three.js"></script>
-  <!--<script src="GLTFLoader.js"></script>-->
-  <script src="three.js-dev/examples/jsm/loaders/GLTFLoader.js"></script>
+  <!-- <script src="js/GLTFLoader.js"></script> -->
+  <!-- <script src="three.js-dev/examples/jsm/loaders/GLTFLoader.js"></script> -->
   <!--<script src="three.js-dev/src/Three.js"></script>-->
   <script>
     //var THREE = require("three");
@@ -78,12 +142,15 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+
     var geometry = new THREE.BoxGeometry();
     var material = new THREE.MeshBasicMaterial({
       color: 0xC72300
     });
     var cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
+
+
     /*
     var loader = new THREE.GLTFLoader();
     loader.load("./3d/HaveANiceTrip2.fbx.glb", function(gltf) {
