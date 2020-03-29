@@ -87,9 +87,9 @@
 </head>
 
 <body style="">
-  <span style="font-size:16px;cursor:pointer; position: absolute; right: 0" onclick="openNav()">Credits &#9776;</span>
-  <div class="brand" style="position: ; margin: 50px">
-    <h6>Have<br>a<br>Nice<br>Trip.</h6>
+  <span style="font-size:16px;cursor:pointer; position: absolute; right: 0; margin: 50px;" onclick="openNav()">Credits &#9776;</span>
+  <div class="brand" style="position: absolute; margin: 50px">
+    <h6>Have<br>a<br>Nice<br>Trip<br>FBX<br />TEST.</h6>
   </div>
 
   <nav class="navbar fixed-bottom">
@@ -134,22 +134,42 @@
   <!-- <script src="three.js-dev/examples/jsm/loaders/GLTFLoader.js"></script> -->
   <!--<script src="three.js-dev/src/Three.js"></script>-->
 
-  <script src="https://threejs.org/build/three.min.js"></script>
-  <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- <script src="https://threejs.org/build/three.min.js"></script>
+  <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script> -->
   <!-- <script src="js/OrbitControls.js"></script> -->
-  <script type="module">
-    //var THREE = require("three");
-    //import * as THREE from "three";
 
+  <script src="js/three.js"></script>
+  <script src="js/FBXLoader.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/stats.min.js"></script>
+  <script src="js/inflate.min.js"></script>
+
+  <script type="">
+
+    var clock = new THREE.Clock();
+    var mixer;
     
-    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 20);
-    camera.position.set( - 1.8, 0.6, 2.7 );
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 2, 2000);
+    camera.position.set( 0, 150, 350 );
     
     var scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0xa0a0a0 );
+    light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+    light.position.set( 0, 200, 0 );
+    scene.add( light );
+    
+    light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 0, 200, 100 );
+    light.castShadow = true;
+    light.shadow.camera.top = 180;
+    light.shadow.camera.bottom = - 100;
+    light.shadow.camera.left = - 120;
+    light.shadow.camera.right = 120;
+    scene.add( light );
 
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+
+
+    
 
     /*
     var geometry = new THREE.BoxGeometry();
@@ -161,25 +181,57 @@
 
 
     
-    var loader = new THREE.GLTFLoader();
-    loader.load("3d/HaveANiceTrip2.fbx.glb", function(gltf) {
-      scene.add(gltf.scene);
+    var loader = new THREE.FBXLoader();
+    loader.load("3d/Walking.fbx", function(object) {
+      mixer = new THREE.AnimationMixer(object);
+      
+      var action = mixer.clipAction(object.animations[0]);
+      action.play();
+      
+      object.translateY(50);
+      
+      object.traverse(function (child) {
+        if(child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+      
+      scene.add(object);
     }, undefined, function(error) {
       console.error(error)
     });
+    
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    window.addEventListener( 'resize', onWindowResize, false );
 
-    camera.position.z = 5;
+    //camera.position.z = 5;
 
     var animate = function() {
-      requestAnimationFrame(animate);
+      requestAnimationFrame( animate );
 
-      //cube.rotation.x += 0.01;
-      //cube.rotation.y += 0.01;
+      var delta = clock.getDelta();
+      
+      if ( mixer ) mixer.update( delta );
 
-      renderer.render(scene, camera);
+      renderer.render( scene, camera );
+
     };
 
     animate();
+    
+    function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
 
   </script>
   <script>
@@ -194,3 +246,4 @@
     })
   </script>
 </body></html>
+
