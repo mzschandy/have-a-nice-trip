@@ -25,7 +25,7 @@
   <style>
     body {
       margin: 0;
-      background-color: black;
+      background-color: #040508;
     }
 
     a {
@@ -81,26 +81,27 @@
       right: 45px;
       font-size: 60px;
     }
+
+    #2d-anim {
+      margin-top: -70px;
+    }
   </style>
   <!-- <script src="GLTFLoader.js"></script> -->
 </head>
 
 <body style="">
-  <span style="font-size:16px;cursor:pointer; position: absolute; right: 0" onclick="openNav()">Credits &#9776;</span>
-  <div class="brand" style="position: ; margin: 50px">
-    <h6>Have<br>a<br>Nice<br>Trip.</h6>
+  <div style="display: flex; justify-content: space-between">
+    <div class="brand" style="position: ; margin: 50px">
+      <h6>Have<br>a<br>Nice<br>Trip.</h6>
+    </div>
+    <span style="font-size:16px;cursor:pointer; position: relative; right: 0; margin: 50px;" onclick="openNav()">Credits &#9776;</span>
+
+
   </div>
 
-  <nav class="navbar fixed-bottom">
-    <div class="navbar-brand" href="#"><b>Click on the character to make him fall</b> </div>
-    <ul class="navbar-nav">
-    </ul>
-  </nav>
-  <div id="2dImage" style="display: none;">
-    <div style="display: flex; justify-content: center; align-items: center">
-      <img src="img/transparentmov.gif" style="max-width: 1080px; align-content: center">
-    </div>
-  </div>
+
+
+
 
   <div id="myNav" class="overlay">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -114,8 +115,156 @@
     </div>
   </div>
 
+  <div id="2d-anim" style="margin-top: -70px">
+    <div id="2d-stand" style="display: block;">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <video id="stand-2d" autoplay muted playsinline style="max-width: 1080px">
+          <source src="video/standinggif.mp4" type="video/mp4">
+          <img src="img/standinggif.gif" style="max-width: 1080px; align-content: center">
+        </video>
 
 
+      </div>
+    </div>
+
+    <div id="2d-walk" style="display: none;">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <video id="walk-2d" loop muted playsinline style="max-width: 1080px">
+          <source src="video/walkinggif.2.mp4" type="video/mp4">
+          <img src="img/walkinggif.2.gif" style="max-width: 1080px; align-content: center">
+        </video>
+      </div>
+    </div>
+
+    <div id="2d-trip" style="display: none;">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <video id="trip-2d" muted playsinline style="max-width: 1080px">
+          <source src="video/trippinggif.mp4" type="video/mp4">
+          <img src="img/trippinggif.gif" style="max-width: 1080px; align-content: center">
+        </video>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="3d-anim" style="margin-top: -70px">
+    <div id="3d-stand" style="display: none;">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <video id="stand-3d" autoplay muted playsinline style="max-width: 1080px">
+          <source src="video/Standing_Final.mp4" type="video/mp4">
+          <img src="img/Standing_Final_1.gif" style="max-width: 1080px; align-content: center">
+        </video>
+      </div>
+    </div>
+
+    <div id="3d-walk" style="display: none;">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <video id="walk-3d" muted loop playsinline style="max-width: 1080px">
+          <source src="video/Walking_Final.mp4" type="video/mp4">
+          <img src="img/Walking_Final_1.gif" style="max-width: 1080px; align-content: center">
+        </video>
+      </div>
+    </div>
+
+    <div id="3d-trip" style="display: none;">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <video id="trip-3d" muted playsinline style="max-width: 1080px">
+          <source src="video/Tripping_Final.mp4" type="video/mp4">
+          <img src="img/Tripping_Final_1.gif" style="max-width: 1080px; align-content: center">
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar fixed-bottom" style="margin: 50px 50px 0 50px; position: absolute">
+    <div class="navbar-brand" href="#"><b>Click on the character to make him fall</b> </div>
+    <ul class="navbar-nav">
+    </ul>
+  </nav>
+
+
+
+  <script>
+    var video1 = document.getElementById("stand-2d");
+    var video2 = document.getElementById("walk-2d");
+    var video3 = document.getElementById("trip-2d");
+    var video4 = document.getElementById("stand-3d");
+    var video5 = document.getElementById("walk-3d");
+    var video6 = document.getElementById("trip-3d");
+
+    function change2Dto3D() {
+      $("#2d-walk").toggle();
+      console.log("2dwalk toggked OFF");
+      $("#2d-trip").toggle();
+      $("body").css("background-color", "#030402");
+      console.log("2d-trip toggled ON")
+      video3.play();
+      video3.onended = function() {
+        $("#2d-trip").toggle()
+        console.log("2d-trip toggled off")
+        $("body").css("background-color", "#000000");
+        $("#3d-stand").toggle();
+        console.log("3d-stand on");
+        video4.play();
+
+      }
+    }
+
+    function change3Dto2D() {
+      $("#3d-walk").toggle();
+      console.log("3dwalk toggked OFF");
+      $("#3d-trip").toggle();
+      console.log("3d-trip toggled ON")
+      video6.play();
+      video6.onended = function() {
+        $("#3d-trip").toggle()
+        console.log("3d-trip toggled off")
+        $("body").css("background-color", "#040508");
+        $("#2d-stand").toggle();
+        console.log("2d-stand on");
+        video1.play();
+      }
+    }
+
+
+    video1.onended = function() {
+      console.log("vid1 is over");
+      $("#2d-stand").toggle();
+      console.log("2dstand toggled OFF");
+      $("#2d-walk").toggle();
+      console.log("2dwalk toggled ON");
+      $("body").css("background-color", "#050201");
+      video2.play();
+      console.log("vid 2 is playing")
+    };
+
+    video4.onended = function() {
+      console.log("vid4 is over");
+      $("#3d-stand").toggle();
+      console.log("2dstand toggled OFF");
+      $("#3d-walk").toggle();
+      console.log("3dwalk toggled ON");
+      video5.play();
+      console.log("vid 5 is playing")
+    }
+    //window.onload = play();
+
+    $(function() {
+      //playlist();
+
+      $("#2d-walk").click(function() {
+        console.log("----CHANGE 2D TO 3D-----");
+        change2Dto3D();
+      });
+      $("#3d-walk").click(function() {
+        console.log("----CHANGE 3D TO 2D-----");
+        change3Dto2D();
+      });
+
+
+
+    });
+  </script>
   <script>
     function openNav() {
       document.getElementById("myNav").style.height = "100%";
@@ -126,61 +275,4 @@
     }
   </script>
 
-
-  <script src="js/three.js"></script>
-  <!-- <script src="js/GLTFLoader.js"></script> -->
-  <!-- <script src="three.js-dev/examples/jsm/loaders/GLTFLoader.js"></script> -->
-  <!--<script src="three.js-dev/src/Three.js"></script>-->
-  <script>
-    //var THREE = require("three");
-    //import * as THREE from "three";
-
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-
-    var geometry = new THREE.BoxGeometry();
-    var material = new THREE.MeshBasicMaterial({
-      color: 0xC72300
-    });
-    var cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-
-    /*
-    var loader = new THREE.GLTFLoader();
-    loader.load("./3d/HaveANiceTrip2.fbx.glb", function(gltf) {
-      scene.add(gltf.scene);
-    }, undefined, function(error) {
-      console.error(error)
-    });*/
-
-    camera.position.z = 5;
-
-    var animate = function() {
-      requestAnimationFrame(animate);
-
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-  </script>
-  <script>
-    $(function() {
-      $("body").click(function() {
-        console.log("body clicked!");
-        $("canvas").toggle();
-        console.log("canvas toggled");
-        $("#2dImage").toggle();
-        console.log("gif toggled");
-      })
-    })
-  </script>
 </body></html>
